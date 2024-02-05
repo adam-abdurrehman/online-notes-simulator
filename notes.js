@@ -79,4 +79,47 @@ function shownotes(){
                 }
             })
         })
-        
+let darkmodeball = document.getElementById('darkmode-ball');
+let darklightbtn = document.getElementById('dark-light-btn');
+let mynote = document.querySelector('#mynote');
+let addTet = document.getElementById('addText');
+let isDarkMode = false;
+
+darklightbtn.addEventListener("click", () => {
+    // Toggle the dark mode status
+    isDarkMode = !isDarkMode;
+
+    // Update the margin based on the dark mode status
+    if (isDarkMode) {
+        document.body.style.backgroundColor = "#121212";
+        document.body.style.color = "#fff";
+        darkmodeball.style.margin = "0 0 0 20px"; // Turn on
+        darkmodeball.style.backgroundColor = "#fff";
+        darklightbtn.style.border = "1px solid #fff";
+        mynote.style.backgroundColor = "#1E1E1E";
+        mynote.style.color = "#fff";
+        addTet.style.backgroundColor = "#1E1E1E";
+        addTet.style.color = "#fff";
+    
+    } else {
+        darkmodeball.style.margin = "0 0 0 4px";  // Turn off
+        darkmodeball.style.backgroundColor = "#000";
+        document.body.style.backgroundColor = "#fff";
+        document.body.style.color = "#000";
+        darklightbtn.style.border = "1px solid #000";
+        mynote.style.backgroundColor = "#fff";
+        mynote.style.color = "#000";
+        addTet.style.backgroundColor = "#fff";
+        addTet.style.color = "#000";
+    }
+    let noteCards = document.querySelectorAll('.noteCard');
+    noteCards.forEach(noteCard => {
+        if (isDarkMode) {
+            noteCard.style.backgroundColor = "#1E1E1E"; // Dark mode color
+            noteCard.style.color = "#fff"; // Dark mode text color
+        } else {
+            noteCard.style.backgroundColor = "#fff"; // Light mode color
+            noteCard.style.color = "#000"; // Light mode text color
+        }
+    });
+});
