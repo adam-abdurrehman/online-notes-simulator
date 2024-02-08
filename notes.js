@@ -5,49 +5,62 @@ shownotes();
 addBtn.addEventListener(
     "click",
     (e) => {
+        let addHead = document.getElementById('addHead');
+        let head = localStorage.getItem("head") 
         let addTxt = document.getElementById('addText');
         let notes = localStorage.getItem("notes") 
-        if(notes == null)
+        if(notes == null && head == null)
         {
+            headObj = [];
             notesObj = [];
         }
         else{
+            headObj = JSON.parse(head)
             notesObj = JSON.parse(notes)
         }
+        headObj.push(addHead.value);
+        localStorage.setItem("head", JSON.stringify(headObj));
+        addHead.value = "";
         notesObj.push(addTxt.value);
         localStorage.setItem("notes", JSON.stringify(notesObj));
         addTxt.value = "";
         shownotes();
     }
 )
-function shownotes(){
-    let show_notes = localStorage.getItem("notes")
-        if(show_notes == null)
-        {
-            notesObj = [];
-        }
-        else{
-            notesObj = JSON.parse(show_notes)
-        }
-        let html = "";
-        notesObj.forEach((element,index) => {
-            html += `
-            <div class="noteCard card" style="width: 18rem; height: 30vh; padding: 20px;">
-                    <div class="card-body" style= "overflow: hidden; padding: 0 0 10px 0;">
-                      <h5 class="card-title">Note ${index + 1}</h5>
-                      <p class="card-text">${element}</p>
-                    </div>
-                      <button id= "${index}" onclick="deletenote(this.id)" class="btn btn-primary" style="width: 20vh;">Delete note</button>
-            </div>`
-        });  
-        let noteselm = document.getElementById('notes');
-        if (notesObj.lenght != 0){
-            noteselm.innerHTML = html;
-        }
-        else{
-            noteselm.innerHTML = `you don't have any notes yet! please add a note from the above section`;
-        }
+
+
+function shownotes() {
+    let show_notes = localStorage.getItem("notes");
+    let show_head = localStorage.getItem("head");
+    
+    if (show_notes == null && show_head == null) {
+        notesObj = [];
+        headObj = [];
+    } else {
+        notesObj = JSON.parse(show_notes);
+        headObj = JSON.parse(show_head);
     }
+    
+    let html = "";
+    notesObj.forEach((element, index) => {
+        html += `
+        <div class="noteCard card" style="width: 18rem; height: 30vh; padding: 20px;">
+            <h4 class="card-header">${headObj[index]}</h4>
+            <div class="card-body" style="overflow: hidden; padding: 0 0 10px 0;">
+                <p class="card-text">${element}</p>
+            </div>
+            <button id="${index}" onclick="deletenote(this.id)" class="btn btn-primary" style="width: 20vh;">Delete note</button>
+        </div>`;
+    });  
+    
+    let noteselm = document.getElementById('notes');
+    if (notesObj.length != 0) {
+        noteselm.innerHTML = html;
+    } else {
+        noteselm.innerHTML = `You don't have any notes yet! Please add a note from the above section`;
+    }
+}
+
 
     function deletenote(index){
         let notes = localStorage.getItem("notes") 
@@ -83,6 +96,7 @@ let darkmodeball = document.getElementById('darkmode-ball');
 let darklightbtn = document.getElementById('dark-light-btn');
 let mynote = document.querySelector('#mynote');
 let addTet = document.getElementById('addText');
+let addHead = document.getElementById('addHead');
 let isDarkMode = false;
 
 darklightbtn.addEventListener("click", () => {
@@ -100,6 +114,8 @@ darklightbtn.addEventListener("click", () => {
         mynote.style.color = "#fff";
         addTet.style.backgroundColor = "#1E1E1E";
         addTet.style.color = "#fff";
+        addHead.style.backgroundColor = "#1E1E1E";
+        addHead.style.color = "#fff";
     
     } else {
         darkmodeball.style.margin = "0 0 0 4px";  // Turn off
@@ -111,6 +127,8 @@ darklightbtn.addEventListener("click", () => {
         mynote.style.color = "#000";
         addTet.style.backgroundColor = "#fff";
         addTet.style.color = "#000";
+        addHead.style.backgroundColor = "#fff";
+        addHead.style.color = "#000";
     }
     let noteCards = document.querySelectorAll('.noteCard');
     noteCards.forEach(noteCard => {
